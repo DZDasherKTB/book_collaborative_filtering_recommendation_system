@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Recommendation System</title>
+
+  <!-- ✅ Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white">
+  <!-- ✅ Navbar -->
+  <nav class="w-full bg-green-600 px-10 py-4 flex justify-between items-center">
+    <div class="text-3xl font-semibold text-white">My Book Recommender</div>
+    <ul class="flex space-x-10 text-lg">
+      <li>
+        <a href="/" class="text-white hover:bg-white hover:text-black px-4 py-2 rounded transition">Home</a>
+      </li>
+      <li>
+        <a href="/recommend"
+          class="text-white hover:bg-white hover:text-black px-4 py-2 rounded transition">Recommend</a>
+      </li>
+      <li>
+        <a href="#" class="text-white hover:bg-white hover:text-black px-4 py-2 rounded transition">Contact</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ✅ Top 50 Books Section -->
+  <div class="w-full max-w-6xl mx-auto px-6 text-center mt-10 mb-10">
+    <h1 class="font-bold text-5xl">Top 50 Books</h1>
+    <p class="text-lg text-gray-300 mt-2">Discover the most popular books among our users.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+
+      <!-- Book Card Example -->
+      {% for i in range(book_name|length) %}
+        <div class="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300 w-full max-w-xs">
+          <div class="relative">
+            <img src="{{image[i]}}" alt="Book Cover" class="w-full h-96 hover:scale-105 transition-transform duration-300" />
+            <div
+              class="overlay absolute bottom-0 left-0 w-full bg-black bg-opacity-80 text-white px-4 py-3 transition-all duration-500 overflow-hidden hover:max-h-48">
+              <h3 class="book-title text-base font-semibold truncate">
+                {{book_name[i]}}
+              </h3>
+              <div class="flex justify-between items-center text-sm text-gray-300 mt-1">
+                <span>{{author[i]}}</span>
+                <span>⭐ {{rating[i]}}</span>
+              </div>
+              <div class="details opacity-0 h-0 overflow-hidden transition-all duration-500 text-sm text-gray-300 mt-2">
+                <p>Number of Ratings: {{votes[i]}}</p>
+                <p>Year of Publication: {{year[i]}}</p>
+                <p>Publisher: {{publisher[i]}}</p>
+              </div>
+              <button onclick="toggleDetails(this)" class="text-green-400 text-sm hover:underline mt-2 block">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      {%endfor %}
+      
+      <!-- Repeat Book Cards for each book -->
+    </div>
+  </div>
+
+</body>
+<script>
+  function toggleDetails(button) {
+    const overlay = button.closest('.overlay');
+    const details = overlay.querySelector('.details');
+    const title = overlay.querySelector('.book-title');
+
+    const isOpen = details.classList.contains('opacity-100');
+
+    if (!isOpen) {
+      details.classList.remove('opacity-0', 'h-0');
+      details.classList.add('opacity-100', 'h-auto');
+      overlay.classList.remove('max-h-24');
+      overlay.classList.add('max-h-48');
+      title.classList.remove('truncate');
+      button.textContent = 'Hide Details';
+    } else {
+      details.classList.remove('opacity-100', 'h-auto');
+      details.classList.add('opacity-0', 'h-0');
+      overlay.classList.remove('max-h-48');
+      overlay.classList.add('max-h-24');
+      title.classList.add('truncate');
+      button.textContent = 'View Details';
+    }
+  }
+</script>
+</html>
