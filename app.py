@@ -3,6 +3,8 @@ import pickle
 import numpy as np
 import pandas as pd
 import random
+import os
+
 
 popular_df = pickle.load(open('./popular.pkl','rb'))
 recommend_df = pickle.load(open('./recommendation_dataframe.pkl','rb'))
@@ -64,4 +66,4 @@ def recommend():
         input_name=None
     )
 if __name__ == '__main__':
-  app.run()
+  app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
